@@ -1,0 +1,26 @@
+<header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl">
+  <nav class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+    <a href="{% url 'home' %}" class="shrink-0 text-xl font-black tracking-wide text-red-500">NLF<span class="text-zinc-100">Stream</span></a>
+
+    <div class="hidden items-center gap-5 text-sm font-medium text-zinc-300 md:flex">
+      <a href="{% url 'home' %}" class="transition hover:text-white">Home</a>
+      <a href="{% url 'live:index' %}" class="transition hover:text-white">Live</a>
+      <a href="{% url 'videos:list' %}" class="transition hover:text-white">Videos</a>
+      <a href="{% url 'speakers:list' %}" class="transition hover:text-white">Speakers</a>
+      <a href="{% url 'categories:topic_list' %}" class="transition hover:text-white">Topics</a>
+    </div>
+
+    <div class="ml-auto hidden lg:block">
+      {% include "components/search_bar.html" %}
+    </div>
+
+    <a href="#" aria-label="User profile" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-200 transition hover:border-zinc-500 hover:text-white">
+      <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 2a5 5 0 100 10 5 5 0 000-10zM3 18a7 7 0 1114 0H3z" />
+      </svg>
+    </a>
+  </nav>
+  <div class="border-t border-zinc-800 px-4 py-3 lg:hidden sm:px-6">
+    {% include "components/search_bar.html" %}
+  </div>
+</header>

@@ -1,0 +1,21 @@
+{% if hero_video %}
+<section class="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+  {% if hero_video.thumbnail %}
+    <img src="{{ hero_video.thumbnail.url }}" class="h-[28rem] w-full object-cover" alt="{{ hero_video.title }}">
+  {% else %}
+    <div class="h-[28rem] w-full bg-gradient-to-r from-zinc-800 to-zinc-950"></div>
+  {% endif %}
+  <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/20"></div>
+  <div class="absolute inset-0 flex items-end p-6 sm:p-10">
+    <div class="max-w-2xl">
+      <p class="mb-3 inline-flex items-center gap-2 rounded-full bg-red-600/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">Featured</p>
+      <h1 class="text-3xl font-bold text-white sm:text-5xl">{{ hero_video.title }}</h1>
+      <p class="mt-4 text-sm text-zinc-200 sm:text-base">{{ hero_video.description|default:"Watch our latest featured ministry message."|truncatewords:30 }}</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="{{ hero_video.get_absolute_url }}" class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100">▶ Watch Now</a>
+        <a href="{% url 'videos:list' %}" class="rounded-md border border-zinc-300/40 bg-zinc-900/50 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-zinc-100">Browse Videos</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

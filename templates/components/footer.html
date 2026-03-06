@@ -1,0 +1,11 @@
+<footer class="mt-16 border-t border-zinc-800 bg-zinc-950">
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-zinc-400 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <p>© {% now "Y" %} New Life Fellowship. All rights reserved.</p>
+    <div class="flex items-center gap-4">
+      <a href="{% url 'home' %}" class="transition hover:text-zinc-200">Home</a>
+      <a href="{% url 'videos:list' %}" class="transition hover:text-zinc-200">Library</a>
+      <a href="{% url 'live:index' %}" class="transition hover:text-zinc-200">Live</a>
+      <a href="{% url 'speakers:list' %}" class="transition hover:text-zinc-200">Speakers</a>
+    </div>
+  </div>
+</footer>
