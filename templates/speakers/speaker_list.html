@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Speakers | NLF Stream{% endblock %}
+{% block content %}
+<section>
+  <h1 class="text-3xl font-bold">Speakers</h1>
+  <p class="mt-2 text-zinc-400">Meet the voices of New Life Fellowship.</p>
+  <div class="mt-6 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+    {% for speaker in speakers %}
+      <a href="{{ speaker.get_absolute_url }}" class="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 text-center transition hover:border-emerald-500/70">
+        {% if speaker.photo %}<img src="{{ speaker.photo.url }}" class="mx-auto h-28 w-28 rounded-full object-cover" alt="{{ speaker.name }}">{% endif %}
+        <p class="mt-3 font-semibold">{{ speaker.name }}</p>
+      </a>
+    {% empty %}<p class="text-zinc-400">No speakers available.</p>{% endfor %}
+  </div>
+</section>
+{% endblock %}

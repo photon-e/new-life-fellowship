@@ -1,0 +1,30 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = []
+
+    operations = [
+        migrations.CreateModel(
+            name='Category',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=120, unique=True)),
+                ('slug', models.SlugField(max_length=150, unique=True)),
+                ('description', models.TextField(blank=True)),
+            ],
+            options={'ordering': ['name']},
+        ),
+        migrations.CreateModel(
+            name='Topic',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=120, unique=True)),
+                ('slug', models.SlugField(max_length=150, unique=True)),
+                ('description', models.TextField(blank=True)),
+            ],
+            options={'ordering': ['name']},
+        ),
+    ]

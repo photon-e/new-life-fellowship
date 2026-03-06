@@ -4,56 +4,84 @@
 
 {% block content %}
 <section class="space-y-10">
-  <div>
-    <h1 class="text-3xl font-bold text-white">Featured Videos</h1>
-    <p class="mt-2 text-zinc-400">Discover sermons and teachings from New Life Fellowship.</p>
-  </div>
-
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {% for video in featured_videos %}
-      <a href="{{ video.get_absolute_url }}" class="group overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/50 transition hover:border-emerald-500/60">
-        {% if video.thumbnail %}
-          <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="aspect-video w-full object-cover transition duration-300 group-hover:scale-105">
-        {% else %}
-          <div class="aspect-video w-full bg-zinc-800"></div>
-        {% endif %}
-        <div class="space-y-2 p-4">
-          <h2 class="line-clamp-2 text-lg font-semibold">{{ video.title }}</h2>
-          <p class="line-clamp-2 text-sm text-zinc-400">{{ video.description|default:"No description available." }}</p>
+  <div class="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70">
+    {% if hero_video and hero_video.thumbnail %}
+      <div class="relative">
+        <img src="{{ hero_video.thumbnail.url }}" class="aspect-[21/8] w-full object-cover" alt="{{ hero_video.title }}">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-black/30"></div>
+        <div class="absolute inset-y-0 left-0 flex max-w-2xl flex-col justify-center p-8">
+          <p class="mb-2 text-xs uppercase tracking-[0.3em] text-emerald-300">Featured</p>
+          <h1 class="text-3xl font-bold sm:text-5xl">{{ hero_video.title }}</h1>
+          <p class="mt-3 text-zinc-300">{{ hero_video.description|truncatewords:24 }}</p>
+          <div class="mt-6 flex gap-3">
+            <a href="{{ hero_video.get_absolute_url }}" class="rounded-md bg-emerald-500 px-4 py-2 font-semibold text-zinc-950">Watch Now</a>
+            <a href="{% url 'videos:list' %}" class="rounded-md border border-zinc-500 px-4 py-2">Browse Library</a>
+          </div>
         </div>
-      </a>
-    {% empty %}
-      <p class="text-zinc-400">No featured videos yet.</p>
-    {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl font-semibold">Watch Live</h2>
+      <a href="{% url 'live:index' %}" class="text-sm text-emerald-300 hover:text-emerald-200">Open Live Page →</a>
+    </div>
+    {% if live_stream %}
+      <p class="mt-2 text-zinc-300">Now Playing: <span class="font-semibold">{{ live_stream.current_program|default:live_stream.title }}</span></p>
+      <p class="mt-1 text-sm text-zinc-400">{{ live_stream.description|default:"Tune in for continuous ministry content." }}</p>
+    {% else %}
+      <p class="mt-2 text-zinc-400">Live stream is not configured yet.</p>
+    {% endif %}
   </div>
 
   <div>
-    <h2 class="text-2xl font-semibold text-white">Categories</h2>
-    <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      {% for category in categories %}
-        <a href="{{ category.get_absolute_url }}" class="rounded-lg border border-zinc-800 bg-zinc-900 p-4 transition hover:border-emerald-400 hover:text-emerald-300">
-          <p class="font-semibold">{{ category.name }}</p>
-          <p class="text-xs text-zinc-400">{{ category.video_count }} videos</p>
+    <h2 class="mb-4 text-2xl font-semibold">Featured Shows</h2>
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {% for video in featured_videos %}
+        <a href="{{ video.get_absolute_url }}" class="group rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 transition hover:border-emerald-500/70">
+          {% if video.thumbnail %}<img src="{{ video.thumbnail.url }}" class="aspect-video w-full rounded-md object-cover" alt="{{ video.title }}">{% endif %}
+          <p class="mt-3 line-clamp-2 text-sm font-medium group-hover:text-emerald-300">{{ video.title }}</p>
         </a>
       {% empty %}
-        <p class="text-zinc-400">No categories available.</p>
+        <p class="text-zinc-400">No featured shows yet.</p>
       {% endfor %}
     </div>
   </div>
 
   <div>
-    <h2 class="text-2xl font-semibold text-white">Latest Uploads</h2>
-    <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {% for video in latest_videos %}
-        <a href="{{ video.get_absolute_url }}" class="group rounded-xl border border-zinc-800 bg-zinc-900/50 p-3 transition hover:border-zinc-700">
-          {% if video.thumbnail %}
-            <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="aspect-video w-full rounded-md object-cover">
-          {% else %}
-            <div class="aspect-video w-full rounded-md bg-zinc-800"></div>
-          {% endif %}
-          <p class="mt-3 line-clamp-2 text-sm font-medium group-hover:text-emerald-300">{{ video.title }}</p>
+    <h2 class="mb-4 text-2xl font-semibold">Featured Speakers</h2>
+    <div class="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
+      {% for speaker in featured_speakers %}
+        <a href="{{ speaker.get_absolute_url }}" class="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 text-center transition hover:border-emerald-500/70">
+          {% if speaker.photo %}<img src="{{ speaker.photo.url }}" class="mx-auto h-20 w-20 rounded-full object-cover" alt="{{ speaker.name }}">{% endif %}
+          <p class="mt-3 font-semibold">{{ speaker.name }}</p>
         </a>
-      {% endfor %}
+      {% empty %}<p class="text-zinc-400">No speakers available.</p>{% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <h2 class="mb-4 text-2xl font-semibold">Topics</h2>
+    <div class="flex flex-wrap gap-3">
+      {% for topic in topics %}
+        <a href="{{ topic.get_absolute_url }}" class="rounded-full border border-zinc-700 px-4 py-2 text-sm transition hover:border-emerald-400">{{ topic.name }}</a>
+      {% empty %}<p class="text-zinc-400">No topics yet.</p>{% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <h2 class="mb-4 text-2xl font-semibold">Latest Videos</h2>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {% for video in latest_videos %}
+        <a href="{{ video.get_absolute_url }}" class="group overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 transition hover:border-emerald-500/70">
+          {% if video.thumbnail %}<img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="aspect-video w-full object-cover transition duration-300 group-hover:scale-105">{% endif %}
+          <div class="p-4">
+            <p class="line-clamp-2 font-semibold">{{ video.title }}</p>
+            <p class="mt-1 text-xs text-zinc-400">{{ video.speaker.name|default:"NLF" }} • {{ video.duration|default:"--:--" }}</p>
+          </div>
+        </a>
+      {% empty %}<p class="text-zinc-400">No latest videos found.</p>{% endfor %}
     </div>
   </div>
 </section>

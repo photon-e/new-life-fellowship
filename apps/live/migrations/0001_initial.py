@@ -1,0 +1,23 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    initial = True
+
+    dependencies = []
+
+    operations = [
+        migrations.CreateModel(
+            name='LiveStream',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=255)),
+                ('stream_url', models.URLField(help_text='Direct stream URL or hosted MP4/HLS URL')),
+                ('current_program', models.CharField(blank=True, max_length=255)),
+                ('description', models.TextField(blank=True)),
+                ('is_active', models.BooleanField(default=False)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+            ],
+            options={'ordering': ['-is_active', '-updated_at']},
+        ),
+    ]

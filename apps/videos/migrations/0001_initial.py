@@ -1,5 +1,5 @@
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('categories', '0001_initial'),
+        ('speakers', '0001_initial'),
     ]
 
     operations = [
@@ -19,16 +20,14 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True)),
                 ('video_file', models.FileField(upload_to='videos/')),
                 ('thumbnail', models.ImageField(blank=True, upload_to='thumbnails/')),
-                ('visibility', models.CharField(choices=[('draft', 'Draft'), ('published', 'Published')], default='draft', max_length=20)),
-                ('is_featured', models.BooleanField(default=False)),
+                ('duration', models.CharField(blank=True, max_length=20)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('categories', models.ManyToManyField(blank=True, related_name='videos', to='categories.category')),
-                ('primary_category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='primary_videos', to='categories.category')),
+                ('is_featured', models.BooleanField(default=False)),
+                ('is_published', models.BooleanField(default=True)),
+                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='videos', to='categories.category')),
+                ('speaker', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='videos', to='speakers.speaker')),
+                ('topics', models.ManyToManyField(blank=True, related_name='videos', to='categories.topic')),
             ],
-            options={
-                'ordering': ['-is_featured', '-created_at'],
-                'indexes': [models.Index(fields=['visibility', '-created_at'], name='videos_video_visibil_040ca2_idx')],
-            },
+            options={'ordering': ['-is_featured', '-created_at']},
         ),
     ]
