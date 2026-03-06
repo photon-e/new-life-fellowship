@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Categories | NLF Stream{% endblock %}
+
+{% block content %}
+<section>
+  <h1 class="text-3xl font-bold">Categories</h1>
+  <p class="mt-2 text-zinc-400">Explore videos by category.</p>
+
+  <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {% for category in categories %}
+      <a href="{{ category.get_absolute_url }}" class="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5 transition hover:border-emerald-500/60">
+        <h2 class="text-lg font-semibold">{{ category.name }}</h2>
+        <p class="mt-2 text-sm text-zinc-400">{{ category.description|default:"No description available." }}</p>
+      </a>
+    {% empty %}
+      <p class="text-zinc-400">No categories available.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
