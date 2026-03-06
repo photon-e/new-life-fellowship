@@ -12,8 +12,10 @@
       <a href="{% url 'home' %}" class="text-lg font-semibold tracking-wide text-emerald-400">NLF Stream</a>
       <div class="flex items-center gap-6 text-sm font-medium text-zinc-300">
         <a href="{% url 'home' %}" class="transition hover:text-white">Home</a>
+        <a href="{% url 'live:index' %}" class="transition hover:text-white">Live</a>
         <a href="{% url 'videos:list' %}" class="transition hover:text-white">Videos</a>
-        <a href="{% url 'categories:list' %}" class="transition hover:text-white">Categories</a>
+        <a href="{% url 'speakers:list' %}" class="transition hover:text-white">Speakers</a>
+        <a href="{% url 'categories:topic_list' %}" class="transition hover:text-white">Topics</a>
       </div>
     </nav>
   </header>
@@ -21,5 +23,20 @@
   <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     {% block content %}{% endblock %}
   </main>
+
+  <footer class="border-t border-zinc-800 py-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-sm text-zinc-400 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <p>© {% now "Y" %} New Life Fellowship. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="{% url 'home' %}" class="hover:text-zinc-200">About</a>
+        <a href="{% url 'videos:list' %}" class="hover:text-zinc-200">Library</a>
+        <a href="{% url 'live:index' %}" class="hover:text-zinc-200">Live</a>
+        <span class="text-zinc-600">|</span>
+        <span>𝕏</span>
+        <span>f</span>
+        <span>▶</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

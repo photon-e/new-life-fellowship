@@ -1,160 +1,139 @@
 # New Life Fellowship Streaming MVP (Django)
 
-A deployable Django MVP for a streaming-style website based on the architecture, data model, and UI planning documents in `docs/`.
+A Django + Tailwind MVP video streaming platform inspired by GTN-style layouts.
 
-## What this MVP includes
-
-- Homepage with featured videos, latest uploads, and categories
-- Video library with responsive grid + pagination
-- Video detail page with HTML5 video player and related videos
-- Category listing and category detail pages
-- Django admin management for categories and videos
-- Media uploads to:
-  - `media/videos/`
-  - `media/thumbnails/`
-- Tailwind CSS styling via CDN (dark, responsive UI)
-- SQLite-first configuration for simple deployment (including PythonAnywhere)
-
-## Project structure
+## Updated folder structure
 
 ```text
 new-life-fellowship/
+├── manage.py
 ├── config/
 │   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-├── categories/
-│   ├── migrations/
-│   ├── admin.py
-│   ├── models.py
-│   ├── urls.py
-│   └── views.py
-├── videos/
-│   ├── migrations/
-│   ├── admin.py
-│   ├── models.py
-│   ├── urls.py
-│   └── views.py
+│   └── urls.py
+├── apps/
+│   ├── videos/
+│   ├── speakers/
+│   ├── categories/
+│   └── live/
 ├── templates/
 │   ├── base.html
 │   ├── home.html
+│   ├── live/live.html
 │   ├── videos/
-│   │   ├── video_list.html
-│   │   └── video_detail.html
+│   ├── speakers/
 │   └── categories/
-│       ├── category_list.html
-│       └── category_detail.html
-├── media/
-│   ├── videos/
-│   └── thumbnails/
-├── manage.py
-└── db.sqlite3 (generated after migrate)
+├── static/
+│   ├── css/
+│   └── js/
+└── media/
+    ├── videos/
+    ├── thumbnails/
+    └── speakers/
 ```
 
-## Data model (MVP subset)
+## Core MVP features
 
-### Category
-- `name`
-- `slug`
-- `description`
+- Homepage with hero banner, Watch Live strip, featured videos, featured speakers, topics, and latest videos.
+- Live TV page at `/live/` with embedded HTML5 player and current program details.
+- Video library at `/videos/` with grid cards, pagination, and category/topic filters.
+- Video detail page at `/videos/<slug>/` with player, metadata, and related videos.
+- Speakers directory and detail pages with each speaker's videos.
+- Topics listing and topic detail pages.
+- Full Django admin management for videos, speakers, categories, topics, and live streams.
+
+## Data model
 
 ### Video
-- `title`
-- `slug`
-- `description`
-- `video_file` (stored in `media/videos/`)
-- `thumbnail` (stored in `media/thumbnails/`)
-- `visibility` (`draft` or `published`)
-- `is_featured`
-- `primary_category`
-- `categories` (many-to-many)
+- title
+- slug
+- description
+- video_file
+- thumbnail
+- speaker
+- category
+- topics (many-to-many)
+- duration
+- created_at
+- is_featured
+- is_published
 
-## Local setup
+### Speaker
+- name
+- slug
+- photo
+- bio
+
+### Category
+- name
+- slug
+- description
+
+### Topic
+- name
+- slug
+- description
+
+### LiveStream
+- title
+- stream_url
+- current_program
+- description
+- is_active
+
+## Local run instructions
 
 1. Create and activate a virtual environment.
-2. Install Django and Pillow:
-
-```bash
-pip install django pillow
-```
-
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 3. Run migrations:
+   ```bash
+   python manage.py migrate
+   ```
+4. Create admin user:
+   ```bash
+   python manage.py createsuperuser
+   ```
+5. Run dev server:
+   ```bash
+   python manage.py runserver
+   ```
 
-```bash
-python manage.py migrate
-```
+Visit:
+- `/`
+- `/live/`
+- `/videos/`
+- `/speakers/`
+- `/topics/`
+- `/admin/`
 
-4. Create an admin user:
+## PythonAnywhere deployment instructions
 
-```bash
-python manage.py createsuperuser
-```
-
-5. Start the development server:
-
-```bash
-python manage.py runserver
-```
-
-6. Open:
-- `http://127.0.0.1:8000/`
-- `http://127.0.0.1:8000/admin/`
-
-## Admin usage
-
-- Add categories in **Categories**
-- Add videos in **Videos**
-  - Upload `.mp4` video file
-  - Upload thumbnail image
-  - Set `visibility=published`
-  - Optionally mark as `is_featured`
-
-## PythonAnywhere deployment notes
-
-This project is PythonAnywhere-friendly by default:
-
-- SQLite database in project root
-- No Docker
-- No external APIs
-- No background queue requirements
-
-### Environment variables
-
-Configure (in PythonAnywhere web app settings):
-
-- `DEBUG=False`
-- `SECRET_KEY=<your-secret-key>`
-- `ALLOWED_HOSTS=<your-pythonanywhere-domain>`
-
-### Static/media settings
-
-Already configured in `config/settings.py`:
-
-- `STATIC_ROOT = BASE_DIR / "staticfiles"`
-- `MEDIA_ROOT = BASE_DIR / "media"`
-
-Run collectstatic during deployment:
-
-```bash
-python manage.py collectstatic --noinput
-```
-
-In PythonAnywhere **Web > Static files** map:
-
-- `/static/` -> `/home/<username>/<project>/staticfiles`
-- `/media/` -> `/home/<username>/<project>/media`
+1. Upload project and create a virtualenv.
+2. Install dependencies with pip.
+3. Set environment variables:
+   - `SECRET_KEY`
+   - `DEBUG=False`
+   - `ALLOWED_HOSTS=<your-domain>`
+4. Run:
+   ```bash
+   python manage.py migrate
+   python manage.py collectstatic --noinput
+   ```
+5. Configure static/media mappings in PythonAnywhere web tab:
+   - `/static/` → `<project>/staticfiles`
+   - `/media/` → `<project>/media`
+6. Reload web app.
 
 ## MVP verification checklist
 
-- [ ] Homepage loads and shows featured/latest sections
-- [ ] Navigation links (Home, Videos, Categories) work
-- [ ] Video library shows cards in responsive grid
-- [ ] Pagination works in `/videos/`
-- [ ] Video detail plays uploaded MP4 file in HTML5 player
-- [ ] Related videos appear on video detail page
-- [ ] Categories list page loads
-- [ ] Category detail page lists videos in selected category
-- [ ] Admin can create/edit/delete categories and videos
-- [ ] Uploaded files are saved under `media/videos` and `media/thumbnails`
-- [ ] `collectstatic` succeeds for deployment
+- [ ] Homepage renders hero + sections
+- [ ] `/live/` plays configured stream URL
+- [ ] `/videos/` filtering + pagination work
+- [ ] `/videos/<slug>/` plays uploaded video + shows related content
+- [ ] `/speakers/` and `/speakers/<slug>/` render correctly
+- [ ] `/topics/` and `/topics/<slug>/` render correctly
+- [ ] Admin can create/edit Video, Speaker, Category, Topic, LiveStream
+- [ ] Uploads save under media folders
+- [ ] `collectstatic` completes successfully

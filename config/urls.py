@@ -3,13 +3,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from videos.views import HomeView
+from apps.videos.views import HomeView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', HomeView.as_view(), name='home'),
-    path('videos/', include('videos.urls')),
-    path('categories/', include('categories.urls')),
+    path("admin/", admin.site.urls),
+    path("", HomeView.as_view(), name="home"),
+    path("live/", include("apps.live.urls")),
+    path("videos/", include("apps.videos.urls")),
+    path("speakers/", include("apps.speakers.urls")),
+    path("topics/", include("apps.categories.urls")),
 ]
 
 if settings.DEBUG:

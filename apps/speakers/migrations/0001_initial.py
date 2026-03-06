@@ -8,12 +8,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name='Speaker',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, unique=True)),
-                ('slug', models.SlugField(max_length=150, unique=True)),
-                ('description', models.TextField(blank=True)),
+                ('name', models.CharField(max_length=140)),
+                ('slug', models.SlugField(max_length=160, unique=True)),
+                ('photo', models.ImageField(blank=True, upload_to='speakers/')),
+                ('bio', models.TextField(blank=True)),
             ],
             options={'ordering': ['name']},
         ),
