@@ -1,9 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-900">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}New Life Fellowship Streaming{% endblock %}</title>
+  <meta name="title" content="{% block meta_title %}New Life Fellowship International{% endblock %}" />
+  <title>{% block title %}New Life Fellowship International{% endblock %}</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
