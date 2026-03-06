@@ -2,25 +2,25 @@
 {% block title %}{{ speaker.name }} | NLF Stream{% endblock %}
 {% block content %}
 <section class="space-y-8">
-  <div class="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
-    <div class="flex flex-col items-start gap-4 md:flex-row">
-      {% if speaker.photo %}<img src="{{ speaker.photo.url }}" class="h-28 w-28 rounded-full object-cover" alt="{{ speaker.name }}">{% endif %}
+  <article class="rounded-2xl border border-zinc-800 bg-zinc-800/60 p-6">
+    <div class="flex flex-col gap-5 md:flex-row md:items-center">
+      <div class="h-28 w-28 overflow-hidden rounded-full border border-zinc-700 bg-zinc-900">
+        {% if speaker.photo %}
+          <img src="{{ speaker.photo.url }}" class="h-full w-full object-cover" alt="{{ speaker.name }}">
+        {% else %}
+          <div class="flex h-full items-center justify-center text-2xl text-zinc-500">{{ speaker.name|slice:":1" }}</div>
+        {% endif %}
+      </div>
       <div>
         <h1 class="text-3xl font-bold">{{ speaker.name }}</h1>
-        <p class="mt-3 text-zinc-300">{{ speaker.bio|default:"Biography coming soon." }}</p>
+        <p class="mt-3 max-w-3xl text-zinc-300">{{ speaker.bio|default:"Biography coming soon." }}</p>
       </div>
     </div>
-  </div>
-  <div>
-    <h2 class="mb-4 text-xl font-semibold">Videos by {{ speaker.name }}</h2>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {% for video in videos %}
-        <a href="{{ video.get_absolute_url }}" class="group rounded-xl border border-zinc-800 bg-zinc-900/50 p-3 transition hover:border-emerald-500/60">
-          {% if video.thumbnail %}<img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="aspect-video w-full rounded-md object-cover">{% endif %}
-          <p class="mt-3 line-clamp-2 text-sm font-medium group-hover:text-emerald-300">{{ video.title }}</p>
-        </a>
-      {% empty %}<p class="text-zinc-400">No videos for this speaker yet.</p>{% endfor %}
-    </div>
-  </div>
+  </article>
+
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Videos by {{ speaker.name }}</h2>
+    {% include "components/video_grid.html" with videos=videos empty_message="No videos for this speaker yet." %}
+  </section>
 </section>
 {% endblock %}

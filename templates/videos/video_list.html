@@ -1,46 +1,43 @@
 {% extends "base.html" %}
 {% block title %}Videos | NLF Stream{% endblock %}
+
 {% block content %}
-<section>
-  <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-    <div>
-      <h1 class="text-3xl font-bold">Video Library</h1>
-      <p class="mt-2 text-zinc-400">Browse all published videos.</p>
-    </div>
-    <form method="get" class="flex flex-wrap gap-2 text-sm">
-      <select name="category" class="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2">
-        <option value="">All categories</option>
-        {% for category in categories %}
-          <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.name }}</option>
-        {% endfor %}
-      </select>
-      <select name="topic" class="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2">
-        <option value="">All topics</option>
-        {% for topic in topics %}
-          <option value="{{ topic.slug }}" {% if selected_topic == topic.slug %}selected{% endif %}>{{ topic.name }}</option>
-        {% endfor %}
-      </select>
-      <button class="rounded-md bg-emerald-500 px-3 py-2 font-semibold text-zinc-950">Filter</button>
-    </form>
+<section class="space-y-8">
+  <div class="space-y-3">
+    <h1 class="text-3xl font-bold">Videos</h1>
+    <p class="text-zinc-400">Browse the full streaming library.</p>
   </div>
 
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-    {% for video in videos %}
-      <a href="{{ video.get_absolute_url }}" class="group overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/50 transition hover:border-emerald-500/60">
-        {% if video.thumbnail %}<img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="aspect-video w-full object-cover transition duration-300 group-hover:scale-105">{% endif %}
-        <div class="space-y-2 p-4">
-          <h2 class="line-clamp-2 font-semibold">{{ video.title }}</h2>
-          <p class="text-xs text-zinc-400">{{ video.speaker.name|default:"NLF" }} • {{ video.duration|default:"--:--" }}</p>
-        </div>
-      </a>
-    {% empty %}<p class="text-zinc-400">No videos available.</p>{% endfor %}
-  </div>
+  <form method="get" class="grid gap-3 rounded-xl border border-zinc-800 bg-zinc-800/60 p-4 sm:grid-cols-2 lg:grid-cols-4">
+    <select name="category" class="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 focus:border-red-400 focus:outline-none">
+      <option value="">All Categories</option>
+      {% for category in categories %}
+        <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="topic" class="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 focus:border-red-400 focus:outline-none">
+      <option value="">All Topics</option>
+      {% for topic in topics %}
+        <option value="{{ topic.slug }}" {% if selected_topic == topic.slug %}selected{% endif %}>{{ topic.name }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="rounded-md bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100">Apply Filters</button>
+    <a href="{% url 'videos:list' %}" class="rounded-md border border-zinc-600 px-4 py-2 text-center text-sm text-zinc-300 transition hover:border-zinc-400 hover:text-zinc-100">Reset</a>
+  </form>
+
+  {% include "components/video_grid.html" with videos=videos empty_message="No videos available for this filter." %}
 
   {% if is_paginated %}
-    <div class="mt-8 flex items-center justify-center gap-2 text-sm">
-      {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&category={{ selected_category }}&topic={{ selected_topic }}" class="rounded-md border border-zinc-700 px-3 py-2">Previous</a>{% endif %}
-      <span class="rounded-md border border-zinc-800 px-3 py-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-      {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&category={{ selected_category }}&topic={{ selected_topic }}" class="rounded-md border border-zinc-700 px-3 py-2">Next</a>{% endif %}
+    <div class="flex items-center justify-center gap-3 text-sm">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&category={{ selected_category }}&topic={{ selected_topic }}" class="rounded border border-zinc-700 px-3 py-1.5 hover:border-zinc-500">Previous</a>
+      {% endif %}
+      <span class="text-zinc-400">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&category={{ selected_category }}&topic={{ selected_topic }}" class="rounded border border-zinc-700 px-3 py-1.5 hover:border-zinc-500">Next</a>
+      {% endif %}
     </div>
   {% endif %}
 </section>
