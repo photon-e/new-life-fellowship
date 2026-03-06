@@ -1,11 +1,27 @@
 <footer class="mt-16 border-t border-zinc-800 bg-zinc-950">
-  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-zinc-400 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-    <p>© {% now "Y" %} New Life Fellowship. All rights reserved.</p>
-    <div class="flex items-center gap-4">
-      <a href="{% url 'home' %}" class="transition hover:text-zinc-200">Home</a>
-      <a href="{% url 'videos:list' %}" class="transition hover:text-zinc-200">Library</a>
-      <a href="{% url 'live:index' %}" class="transition hover:text-zinc-200">Live</a>
-      <a href="{% url 'speakers:list' %}" class="transition hover:text-zinc-200">Speakers</a>
+  <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 text-sm text-zinc-400 sm:px-6 lg:grid-cols-3 lg:px-8">
+    <div>
+      <h2 class="text-base font-semibold text-white">New Life Fellowship International</h2>
+      <p class="mt-3 leading-6">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. A global fellowship dedicated to spreading faith, hope, and love.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-wide text-zinc-300">Explore</h3>
+      <ul class="mt-3 space-y-2">
+        <li><a href="{% url 'home' %}" class="transition hover:text-white">Home</a></li>
+        <li><a href="{% url 'videos:list' %}" class="transition hover:text-white">Videos</a></li>
+        <li><a href="{% url 'speakers:list' %}" class="transition hover:text-white">Speakers</a></li>
+        <li><a href="{% url 'categories:topic_list' %}" class="transition hover:text-white">Topics</a></li>
+        <li><a href="{% url 'about' %}" class="transition hover:text-white">About</a></li>
+      </ul>
+    </div>
+
+    <div class="lg:text-right">
+      <h3 class="text-sm font-semibold uppercase tracking-wide text-zinc-300">Community</h3>
+      <p class="mt-3">Join live services, watch teachings, and connect with believers worldwide.</p>
+      <p class="mt-4">© {% now "Y" %} New Life Fellowship International. All rights reserved.</p>
     </div>
   </div>
 </footer>
