@@ -22,14 +22,14 @@
 
     <div class="ml-auto flex items-center gap-2 lg:ml-4">
       {% if request.user.is_authenticated %}
-        <a href="{% url 'admin:index' %}" class="rounded-md border border-zinc-700 px-3 py-1.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white">Profile</a>
-        <form method="post" action="{% url 'admin:logout' %}">
+        <a href="{% url 'home' %}" class="rounded-md border border-zinc-700 px-3 py-1.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white">Dashboard</a>
+        <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button type="submit" class="rounded-md bg-brand-red px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-500">Logout</button>
         </form>
       {% else %}
-        <a href="{% url 'admin:login' %}" class="rounded-md border border-zinc-700 px-3 py-1.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white">Login</a>
-        <a href="{% url 'admin:login' %}" class="rounded-md bg-brand-red px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-500">Sign Up</a>
+        <a href="{% url 'accounts:login' %}" class="rounded-md border border-zinc-700 px-3 py-1.5 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white">Login</a>
+        <a href="{% url 'accounts:signup' %}" class="rounded-md bg-brand-red px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-500">Sign Up</a>
       {% endif %}
     </div>
   </nav>
